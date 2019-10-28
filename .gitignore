@@ -4,3 +4,7 @@
 
 /BackEnd/obj
 /.vs/ConferencePlanner/v16
+/BackEnd/bin/Debug/netcoreapp3.0
+/Domain/bin/Debug/netcoreapp3.0
+/Domain/obj
+/.vs/ConferencePlanner
