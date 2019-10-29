@@ -8,3 +8,5 @@
 /Domain/bin/Debug/netcoreapp3.0
 /Domain/obj
 /.vs/ConferencePlanner
+/ConferenceDTO/bin/Debug/netstandard2.0
+/ConferenceDTO/obj

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BackEnd;
-using Domain;
+using BackEnd.Models;
 
 namespace BackEnd.Controllers
 {
