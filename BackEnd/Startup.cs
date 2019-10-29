@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,18 @@ namespace BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+                else
+                {
+                    options.UseSqlite("Data Source=conferences.db");
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
