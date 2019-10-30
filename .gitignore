@@ -10,3 +10,6 @@
 /.vs/ConferencePlanner
 /ConferenceDTO/bin/Debug/netstandard2.0
 /ConferenceDTO/obj
+/FrontEnd/obj
+/FrontEnd/wwwroot/lib
+/FrontEnd/bin/Debug/netcoreapp3.0
