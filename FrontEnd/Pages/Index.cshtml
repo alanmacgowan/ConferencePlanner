@@ -1,1 +1,21 @@
-﻿
+﻿@page
+@model IndexModel
+@{
+    var title = $"My Conference {DateTime.Now.Year}";
+    ViewData["Title"] = title;
+}
+
+<div class="agenda">
+    <h1>My Conference @System.DateTime.Now.Year</h1>
+
+    @foreach (var timeSlot in Model.Sessions)
+    {
+        <h4>@timeSlot.Key?.ToString("HH:mm")</h4>
+        <ul>
+            @foreach (var session in timeSlot)
+            {
+                <li>@session.Title</li>
+            }
+        </ul>
+    }
+</div>
