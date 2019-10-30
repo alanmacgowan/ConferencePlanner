@@ -1,4 +1,5 @@
-﻿using BackEnd.Infrastructure;
+﻿using BackEnd.Data;
+using BackEnd.Infrastructure;
 using ConferenceDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
