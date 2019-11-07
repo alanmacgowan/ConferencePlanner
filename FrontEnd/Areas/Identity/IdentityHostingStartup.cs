@@ -19,8 +19,10 @@ namespace FrontEnd.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("IdentityDbContextConnection")));
 
-                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<IdentityDbContext>();
+                services.AddDefaultIdentity<User>()
+                    .AddEntityFrameworkStores<IdentityDbContext>()
+                    .AddClaimsPrincipalFactory<ClaimsPrincipalFactory>();
+
             });
         }
     }
