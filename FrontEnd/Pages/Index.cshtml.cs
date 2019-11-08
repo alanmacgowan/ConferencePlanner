@@ -18,6 +18,9 @@ namespace FrontEnd.Pages
         public IEnumerable<(int Offset, DayOfWeek? DayofWeek)> DayOffsets { get; set; }
         public int CurrentDayOffset { get; set; }
         public bool IsAdmin { get; set; }
+        [TempData]
+        public string Message { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(Message);
 
         public IndexModel(IApiClient apiClient)
         {

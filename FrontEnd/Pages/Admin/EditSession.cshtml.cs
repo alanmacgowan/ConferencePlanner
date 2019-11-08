@@ -9,6 +9,9 @@ namespace FrontEnd.Pages.Admin
     public class EditSessionModel : PageModel
     {
         private readonly IApiClient _apiClient;
+        [TempData]
+        public string Message { get; set; }
+        public bool ShowMessage => !string.IsNullOrEmpty(Message);
 
         public EditSessionModel(IApiClient apiClient)
         {
@@ -39,6 +42,8 @@ namespace FrontEnd.Pages.Admin
                 return Page();
             }
 
+            Message = "Session updated successfully!";
+
             await _apiClient.PutSessionAsync(Session);
 
             return Page();
@@ -52,6 +57,8 @@ namespace FrontEnd.Pages.Admin
             {
                 await _apiClient.DeleteSessionAsync(id);
             }
+
+            Message = "Session deleted successfully!";
 
             return Page();
         }
