@@ -1,4 +1,5 @@
-﻿using FrontEnd.Pages.Models;
+﻿using FrontEnd.Middleware;
+using FrontEnd.Pages.Models;
 using FrontEnd.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Pages
 {
+    [SkipWelcome]
     public class WelcomeModel : PageModel
     {
         private readonly IApiClient _apiClient;
