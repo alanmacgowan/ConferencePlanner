@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FrontEnd.Data;
+using FrontEnd.HealthChecks;
 using FrontEnd.Middleware;
 using FrontEnd.Services;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,7 @@ namespace FrontEnd
             });
 
             services.AddHealthChecks()
+                    .AddCheck<BackendHealthCheck>("backend")
                     .AddDbContextCheck<IdentityDbContext>();
 
         }
