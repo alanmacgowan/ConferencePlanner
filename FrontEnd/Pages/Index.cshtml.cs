@@ -4,9 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ConferenceDTO;
+using FrontEnd.Infrastructure;
 using FrontEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace FrontEnd.Pages
@@ -14,6 +16,7 @@ namespace FrontEnd.Pages
     public class IndexModel : PageModel
     {
         protected readonly IApiClient _apiClient;
+        private readonly IMemoryCache _cache;
         public IEnumerable<IGrouping<DateTimeOffset?, SessionResponse>> Sessions { get; set; }
         public IEnumerable<(int Offset, DayOfWeek? DayofWeek)> DayOffsets { get; set; }
         public int CurrentDayOffset { get; set; }
@@ -24,10 +27,12 @@ namespace FrontEnd.Pages
         public List<SessionResponse> UserSessions { get; set; }
         public ConferenceData ConferenceModel { get; private set; }
 
-        public IndexModel(IApiClient apiClient)
+        public IndexModel(IApiClient apiClient, IMemoryCache cache)
         {
             _apiClient = apiClient;
+            _cache = cache;
         }
+
         protected virtual Task<List<SessionResponse>> GetSessionsAsync()
         {
             return _apiClient.GetSessionsAsync();
@@ -42,7 +47,7 @@ namespace FrontEnd.Pages
                 UserSessions = await _apiClient.GetSessionsByAttendeeAsync(User.Identity.Name);
             }
 
-            ConferenceModel = GetConferenceDataAsync(); //await GetConferenceDataAsync();
+            ConferenceModel = await GetConferenceDataAsync();
 
             if (CurrentDayOffset > 0 && !ConferenceModel.ContainsKey(CurrentDayOffset))
             {
@@ -77,21 +82,15 @@ namespace FrontEnd.Pages
             return RedirectToPage();
         }
 
-        //protected virtual Task<ConferenceData> GetConferenceDataAsync()
-        //{
-        //    return _cache.GetOrCreateAsync(CacheKeys.ConferenceData, async entry =>
-        //    {
-        //        entry.SetSlidingExpiration(TimeSpan.FromHours(1));
-
-        //        var sessions = await _apiClient.GetSessionsAsync();
-        //        return GenerateConferenceData(sessions);
-        //    });
-        //}
-
-        protected virtual ConferenceData GetConferenceDataAsync()
+        protected virtual Task<ConferenceData> GetConferenceDataAsync()
         {
-            var sessions = GetSessionsAsync();
-            return GenerateConferenceData(sessions.Result);
+            return _cache.GetOrCreateAsync(CacheKeys.ConferenceData, async entry =>
+            {
+                entry.SetSlidingExpiration(TimeSpan.FromHours(1));
+
+                var sessions = await _apiClient.GetSessionsAsync();
+                return GenerateConferenceData(sessions);
+            });
         }
 
         public static ConferenceData GenerateConferenceData(List<SessionResponse> sessions)

@@ -7,14 +7,15 @@ using FrontEnd.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FrontEnd.Pages
 {
     [Authorize]
     public class MyAgendaModel : IndexModel
     {
-        public MyAgendaModel(IApiClient client)
-            : base(client)
+        public MyAgendaModel(IApiClient client, IMemoryCache cache)
+            : base(client, cache)
         {
 
         }
