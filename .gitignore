@@ -13,3 +13,5 @@
 /FrontEnd/obj
 /FrontEnd/wwwroot/lib
 /FrontEnd/bin/Debug/netcoreapp3.0
+/bin/Debug
+/obj
